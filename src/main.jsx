@@ -4,7 +4,6 @@ import { createPortal } from "react-dom";
 import {
   ArrowLeft,
   ArrowRight,
-  Award,
   Check,
   Volume2,
   VolumeX,
@@ -34,30 +33,30 @@ const tabs = [
 
 const reveals = {
   hook: {
-    title: "The Matching Deposit Obligation",
-    text: "Organizational process assets work exactly like a potluck dinner. Every project withdraws from this shared library on day one — templates, checklists, playbooks, policies, estimating databases, risk and trigger libraries, the lessons repository. Enabler 6.3 names the matching deposit obligation: projects that only withdraw leave the organization exactly as smart as they found it. A project that only consumes capability leaves future projects to reinvent the wheel.",
+    title: "Lesson 6.5.3 — Update Organizational Process Assets (OPAs)",
+    text: "Organizational process assets work the same way. Every project withdraws from this shared library on day one — templates, checklists, playbooks, policies, estimating databases, risk and trigger libraries, the lessons repository. Enabler 6.3 names the matching deposit obligation: projects that only withdraw leave the organization exactly as smart as they found it.",
     image: "potluck-table-deposit",
   },
   monitoring: {
-    title: "Monitoring Channels Feeding OPA Deposits",
-    text: "OPA updates aren't a separate task bolted onto the end of a project. They appear as an output of nearly every monitoring process in this module, because monitoring is where practice gets tested hard enough against reality to learn from. Schedule monitoring refines estimation velocity databases; risk monitoring generates battle-tested trigger libraries; quality audits yield standardized inspection checklists; and stakeholder feedback refines communication matrices.",
+    title: "Where the Deposits Actually Come From",
+    text: "OPA updates appear as an output of nearly every monitoring process in this module, because monitoring is where practice gets tested hard enough to learn from. It's the friction of actually running the work — not the planning of it — that produces something worth depositing back into the library.",
     image: "monitoring-deposits-feed",
   },
   timing: {
-    title: "Assets Ship When Proven — Don't Wait for Closure",
-    text: "A lesson that is genuinely validated in month three of a project shouldn't sit in someone's private notes until the project formally closes months later. The moment it is proven, it's ready to deposit — for the current project's own later phases, and for whichever sister project might need it next week. Continuous deposit keeps the enterprise agile and prevents validated insights from decaying in draft documents.",
+    title: "Timing: Don't Wait for Closure",
+    text: "Do not wait for closure — assets ship when the learning is proven. A lesson that's genuinely validated in month three of a project shouldn't sit in someone's notes until the project wraps up months later. The moment it's proven, it's ready to deposit — for the current project's own later phases, and for whichever other project might need it next week.",
     image: "proven-midproject-timing",
   },
   exam: {
-    title: "The Sustained Value of Active OPA Governance",
-    text: "Back to that potluck table one more time — because a project that only ever eats leaves the organization exactly as hungry as it found it. Continuous OPA stewardship transforms isolated project lessons into permanent enterprise competitive advantages.",
+    title: "Synthesis (Exam Lens)",
+    text: "Organizational process assets are the organization's accumulated project capability — templates, checklists, playbooks, policies, estimating databases, risk and trigger libraries, the lessons repository. Every project withdraws from this library; enabler 6.3 names the matching deposit obligation. OPA updates come out of monitoring processes, because monitoring is where practice gets tested hard enough to learn from. The pipeline turns raw lessons into real assets: curate for reuse value, generalize to strip project specifics and keep the pattern, and version and own through a named steward. And the timing rule is simple: assets ship when the learning is proven, not when the project happens to close.",
     image: "exam-opa-potluck",
     bullets: [
-      "OPAs defined: templates, checklists, playbooks, policies, estimating databases, risk/trigger libraries, and the lessons learned repository",
-      "Reciprocal obligation: every project withdraws capability; Enabler 6.3 mandates the matching deposit obligation",
-      "Monitoring output: OPA updates emerge naturally from monitoring processes where practice is tested against reality",
-      "Three-step pipeline: Curate (filter for reuse value), Generalize (strip specifics, keep pattern), Version & Own (governed by named steward with credit)",
-      "Timing rule: assets ship immediately when proven — never artificially delayed until project closure",
+      "OPAs: templates, checklists, playbooks, policies, estimating databases, risk/trigger libraries, lessons repository",
+      "Every project withdraws; enabler 6.3 names the matching deposit obligation",
+      "OPA updates come from monitoring processes — where practice gets tested hard enough to learn from",
+      "Three-step pipeline: curate (reuse value), generalize (strip specifics, keep the pattern), version and own (named steward, credited project)",
+      "Assets ship when the learning is proven, not held until project closure",
     ],
   },
 };
@@ -65,13 +64,13 @@ const reveals = {
 const pipelineSteps = [
   {
     title: "1. Curate",
-    text: "Select the learning with reuse value. Ten excellent assets beat a hundred entries nobody reads — asset libraries die of volume more often than scarcity. Without curation, repositories become junk drawers.",
+    text: "Select the learning with reuse value. Ten excellent assets beat a hundred entries nobody reads — asset libraries die of volume more often than scarcity.",
     image: "pipeline-curate",
     icon: Filter,
   },
   {
     title: "2. Generalize",
-    text: "Strip the project specifics, keep the pattern. A lesson tied too tightly to one project's exact vendor code or unique circumstance helps nobody else. Extract the repeatable principle.",
+    text: "Strip the project specifics, keep the pattern. A lesson tied too tightly to one project's exact circumstances helps nobody else.",
     image: "pipeline-generalize",
     icon: Layers,
   },
@@ -85,7 +84,7 @@ const pipelineSteps = [
 
 const quizzes = [
   {
-    q: "A project team dumps every raw lesson from their retrospectives and post-mortems directly into the organization's asset library, without filtering, generalizing, or removing project-specific details. Within a year, the library has thousands of entries, and most team members have stopped checking it because it's too cluttered to be useful. What does this scenario best illustrate?",
+    q: "Scenario: A project team dumps every raw lesson from their retrospectives and post-mortems directly into the organization's asset library, without filtering, generalizing, or removing project-specific details. Within a year, the library has thousands of entries, and most team members have stopped checking it because it's too cluttered to be useful. What does this scenario best illustrate?",
     a: [
       "The library failed because it didn't have enough entries to be genuinely useful",
       "Asset libraries die of volume more often than scarcity — raw, uncurated lessons dumped in without curation or generalization make the library too cluttered to actually use",
@@ -97,7 +96,7 @@ const quizzes = [
     b: "Reconsider — the library had plenty of entries, so scarcity wasn't the problem; timing (waiting for closure) isn't what's being tested here; and the core issue is curation and generalization, not simply a missing credit step.",
   },
   {
-    q: "A project team validates a genuinely useful estimating adjustment in month three of a twelve-month project. The project manager decides to hold onto this learning and add it to the organization's estimating database only once the project formally closes, reasoning that 'we'll do all our OPA updates at the end.' What is the drawback of this approach?",
+    q: "Scenario: A project team validates a genuinely useful estimating adjustment in month three of a twelve-month project. The project manager decides to hold onto this learning and add it to the organization's estimating database only once the project formally closes, reasoning that \"we'll do all our OPA updates at the end.\" What is the drawback of this approach?",
     a: [
       "There is no drawback — OPA updates are meant to be batched and submitted only at project closure",
       "Waiting until closure means the proven learning sits unused for months, unavailable to other projects (or even this project's own later phases) that could benefit from it sooner",
@@ -134,7 +133,7 @@ function Modal({ d, close, done }) {
           </>
         ) : (
           <div className="modal-summary">
-            <h3>Key Takeaways</h3>
+            <h3>Exam-Relevant Enablers to Remember</h3>
             <ul>
               {d.bullets.map((b) => (
                 <li key={b}>{b}</li>
@@ -214,35 +213,27 @@ function App() {
     setDone((d) => d.map((x, j) => (j === i ? true : x)));
   const go = (i) => i >= 0 && i < 5 && (i <= s + 1 || done[i - 1]) && setS(i);
 
-  useEffect(() => {
-    if (s === 2 && pipelineRead.every(Boolean)) {
-      // Step 2 pipeline items all read
-    }
-  }, [pipelineRead, s]);
-
   let c;
 
   if (s === 0)
     c = (
       <div className="hero-layout">
         <div>
-          <p className="eyebrow">LESSON 6.5.3 · UPDATE ORGANIZATIONAL PROCESS ASSETS</p>
-          <h1>
-            Deposit as well as withdraw; keep the library <span>alive.</span>
-          </h1>
+          <p className="eyebrow">SCREEN 1 — HOOK</p>
+          <h1>Lesson 6.5.3 — Update Organizational Process Assets (OPAs)</h1>
           <p className="lead">
-            If you go to a potluck dinner, you don't just eat. You bring a dish. The whole thing only works because people contribute as well as consume. Projects that only withdraw leave the organization exactly as smart as they found it.
+            A neighborhood potluck works only because the people who eat from the table also bring a dish. If everyone just showed up hungry and never contributed anything, the table would be empty within a month.
           </p>
           <button
             className="primary-cta"
             disabled={done[0]}
             onClick={() => !done[0] && setModal("hook")}
           >
-            {done[0] ? "Deposit obligation reviewed" : "Reveal matching deposit obligation"}{" "}
+            {done[0] ? "Matching deposit obligation reviewed" : "Click to Reveal: The Matching Deposit Obligation"}{" "}
             <ArrowRight size={18} />
           </button>
         </div>
-        <img className="lesson-art" src={img("potluck-table-deposit")} alt="" />
+        <img className="lesson-art" src={img("potluck-table-deposit")} alt="Potluck table OPA analogy" />
       </div>
     );
 
@@ -250,30 +241,31 @@ function App() {
     c = (
       <div className="hero-layout">
         <div>
-          <p className="eyebrow">MONITORING AS THE ENGINE</p>
-          <h2>Tested in the Field: Friction Generates Learning</h2>
+          <p className="eyebrow">SCREEN 2 — WHERE THE DEPOSITS ACTUALLY COME FROM</p>
+          <h2>Where the Deposits Actually Come From</h2>
           <p className="lead">
-            OPA updates aren't a separate task bolted onto the end of a project. They appear as an output of nearly every monitoring process, because monitoring is where practice gets tested hard enough against reality to learn from.
+            OPA updates aren't a separate task bolted onto the end of a project. They come from somewhere very specific.
           </p>
           <button
             className="primary-cta"
             disabled={done[1]}
             onClick={() => !done[1] && setModal("monitoring")}
           >
-            {done[1] ? "Monitoring engine reviewed" : "Reveal monitoring deposit engine"}{" "}
+            {done[1] ? "Monitoring output engine reviewed" : "Click to Reveal: Where Deposits Come From"}{" "}
             <ArrowRight size={18} />
           </button>
         </div>
-        <img className="lesson-art" src={img("monitoring-deposits-feed")} alt="" />
+        <img className="lesson-art" src={img("monitoring-deposits-feed")} alt="Monitoring feeding OPA" />
       </div>
     );
 
   if (s === 2)
     c = (
       <div className="wide-page">
+        <p className="eyebrow">SCREEN 3 — THE PIPELINE: CURATE, GENERALIZE, VERSION</p>
         <h2>The Pipeline: Curate, Generalize, Version</h2>
         <p className="lead">
-          Raw lessons do not belong in the asset library — assets do. Click each of the three steps to explore how raw experience becomes reusable capability.
+          Raw lessons do not belong in the asset library — assets do. Three honest steps turn one into the other. Click each to explore.
         </p>
         <div className="card-grid three">
           {pipelineSteps.map((step, i) => {
@@ -313,11 +305,11 @@ function App() {
           >
             {done[2] ? (
               <>
-                <Check size={18} /> Knowledge check completed
+                <Check size={18} /> Micro Knowledge Check completed
               </>
             ) : (
               <>
-                <Target size={18} /> Start knowledge check <ArrowRight size={18} />
+                <Target size={18} /> Micro Knowledge Check <ArrowRight size={18} />
               </>
             )}
           </button>
@@ -329,17 +321,17 @@ function App() {
     c = (
       <div className="hero-layout">
         <div>
-          <p className="eyebrow">DEPOSIT TIMING</p>
-          <h2>Assets Ship When Proven, Not When Closed</h2>
+          <p className="eyebrow">SCREEN 4 — TIMING: DON'T WAIT FOR CLOSURE</p>
+          <h2>Timing: Don't Wait for Closure</h2>
           <p className="lead">
-            A lesson validated in month three of a project shouldn't sit in someone's private notes until project closure. The moment it is proven, deposit it immediately for later phases and sister projects.
+            One more detail changes when a deposit actually happens — and it isn't at the end.
           </p>
           <button
             className="primary-cta"
             disabled={done[3]}
             onClick={() => setModal("timing")}
           >
-            {done[3] ? "Timing rule reviewed — ready for check" : "Reveal the proven learning rule"}{" "}
+            {done[3] ? "Timing rule reviewed — ready for check" : "Click to Reveal: Don't Wait for Closure"}{" "}
             <ArrowRight size={18} />
           </button>
           {done[3] && (
@@ -348,37 +340,34 @@ function App() {
               style={{ marginTop: 14 }}
               onClick={() => setQuiz(1)}
             >
-              <Target size={18} /> Start knowledge check <ArrowRight size={18} />
+              <Target size={18} /> Micro Knowledge Check <ArrowRight size={18} />
             </button>
           )}
         </div>
-        <img className="lesson-art" src={img("proven-midproject-timing")} alt="" />
+        <img className="lesson-art" src={img("proven-midproject-timing")} alt="Proven learning timing" />
       </div>
     );
 
   if (s === 4)
     c = (
       <div className="exam-layout">
-        <p className="eyebrow">MODULE 6 SYNTHESIS</p>
-        <h2>The Sustained Value of Active OPA Governance</h2>
+        <p className="eyebrow">SCREEN 5 — SYNTHESIS (EXAM LENS)</p>
+        <h2>Synthesis (Exam Lens)</h2>
         <div className="exam-two-col">
           <div>
             <p className="lead">
               Back to that potluck table one more time — because a project that only ever eats leaves the organization exactly as hungry as it found it.
-            </p>
-            <p>
-              When teams deposit proven templates, estimation calibrations, risk triggers, and generalized checklists, the organization grows continuously smarter.
             </p>
             <button
               className="primary-cta"
               disabled={done[4]}
               onClick={() => setModal("exam")}
             >
-              {done[4] ? "Exam takeaway review complete" : "Review key exam takeaways"}{" "}
+              {done[4] ? "Exam review complete" : "Click to Reveal: Exam-Relevant Enablers"}{" "}
               <ArrowRight size={18} />
             </button>
           </div>
-          <img className="lesson-art" src={img("exam-opa-potluck")} alt="" />
+          <img className="lesson-art" src={img("exam-opa-potluck")} alt="Potluck exam synthesis" />
         </div>
       </div>
     );
@@ -389,7 +378,7 @@ function App() {
         <div className="course-select">
           <span className="crumb">Module 6</span>
           <span className="crumb-sep">/</span>
-          <span className="crumb-current">Lesson 6.5.3</span>
+          <span className="crumb-current">Lesson 6.5.3 — Update Organizational Process Assets (OPAs)</span>
         </div>
         <div className="module-progress">
           <div>
