@@ -109,7 +109,7 @@ const quizzes = [
   },
 ];
 
-function Modal({ d, close, done }) {
+function Modal({ d, close, onComplete }) {
   const [step, setStep] = useState(0);
   useEffect(() => {
     const esc = (e) => e.key === "Escape" && close();
@@ -149,7 +149,7 @@ function Modal({ d, close, done }) {
           <button
             className="modal-action"
             onClick={() => {
-              done();
+              if (onComplete) onComplete();
               close();
             }}
           >
@@ -189,7 +189,7 @@ function Quiz({ d, finish }) {
               {p === d.c ? d.g : d.b}
             </p>
             <button className="finish-check" onClick={finish}>
-              Finish check <ArrowRight size={18} />
+              Finish check & unlock next screen <ArrowRight size={18} />
             </button>
           </>
         )}
@@ -206,6 +206,7 @@ function App() {
   const [quiz, setQuiz] = useState(null);
   const [sound, setSound] = useState(true);
   const [pipelineRead, setPipelineRead] = useState(Array(3).fill(false));
+  const [timingReviewed, setTimingReviewed] = useState(false);
 
   useLessonAudio(sound);
 
@@ -219,8 +220,8 @@ function App() {
     c = (
       <div className="hero-layout">
         <div>
-          <p className="eyebrow">SCREEN 1 — HOOK</p>
-          <h1>Lesson 6.5.3 — Update Organizational Process Assets (OPAs)</h1>
+          <p className="eyebrow">Lesson 6.5.3 — Update Organizational Process Assets (OPAs)</p>
+          <h1>A neighborhood potluck works only because people also bring a dish.</h1>
           <p className="lead">
             A neighborhood potluck works only because the people who eat from the table also bring a dish. If everyone just showed up hungry and never contributed anything, the table would be empty within a month.
           </p>
@@ -241,7 +242,6 @@ function App() {
     c = (
       <div className="hero-layout">
         <div>
-          <p className="eyebrow">SCREEN 2 — WHERE THE DEPOSITS ACTUALLY COME FROM</p>
           <h2>Where the Deposits Actually Come From</h2>
           <p className="lead">
             OPA updates aren't a separate task bolted onto the end of a project. They come from somewhere very specific.
@@ -262,7 +262,6 @@ function App() {
   if (s === 2)
     c = (
       <div className="wide-page">
-        <p className="eyebrow">SCREEN 3 — THE PIPELINE: CURATE, GENERALIZE, VERSION</p>
         <h2>The Pipeline: Curate, Generalize, Version</h2>
         <p className="lead">
           Raw lessons do not belong in the asset library — assets do. Three honest steps turn one into the other. Click each to explore.
@@ -300,18 +299,10 @@ function App() {
         {pipelineRead.every(Boolean) && (
           <button
             className="knowledge-cta centered"
-            disabled={done[2]}
             onClick={() => setQuiz(0)}
           >
-            {done[2] ? (
-              <>
-                <Check size={18} /> Micro Knowledge Check completed
-              </>
-            ) : (
-              <>
-                <Target size={18} /> Micro Knowledge Check <ArrowRight size={18} />
-              </>
-            )}
+            <Target size={18} /> {done[2] ? "Retake Micro Knowledge Check" : "Start Micro Knowledge Check (Required to Continue)"}{" "}
+            <ArrowRight size={18} />
           </button>
         )}
       </div>
@@ -321,26 +312,25 @@ function App() {
     c = (
       <div className="hero-layout">
         <div>
-          <p className="eyebrow">SCREEN 4 — TIMING: DON'T WAIT FOR CLOSURE</p>
           <h2>Timing: Don't Wait for Closure</h2>
           <p className="lead">
             One more detail changes when a deposit actually happens — and it isn't at the end.
           </p>
           <button
             className="primary-cta"
-            disabled={done[3]}
             onClick={() => setModal("timing")}
           >
-            {done[3] ? "Timing rule reviewed — ready for check" : "Click to Reveal: Don't Wait for Closure"}{" "}
+            {timingReviewed ? "Timing rule reviewed" : "Click to Reveal: Don't Wait for Closure"}{" "}
             <ArrowRight size={18} />
           </button>
-          {done[3] && (
+          {timingReviewed && (
             <button
               className="knowledge-cta"
               style={{ marginTop: 14 }}
               onClick={() => setQuiz(1)}
             >
-              <Target size={18} /> Micro Knowledge Check <ArrowRight size={18} />
+              <Target size={18} /> {done[3] ? "Retake Micro Knowledge Check" : "Start Micro Knowledge Check (Required to Continue)"}{" "}
+              <ArrowRight size={18} />
             </button>
           )}
         </div>
@@ -351,7 +341,6 @@ function App() {
   if (s === 4)
     c = (
       <div className="exam-layout">
-        <p className="eyebrow">SCREEN 5 — SYNTHESIS (EXAM LENS)</p>
         <h2>Synthesis (Exam Lens)</h2>
         <div className="exam-two-col">
           <div>
@@ -428,7 +417,7 @@ function App() {
             <div className="lesson-content">{c}</div>
             {done[s] && (
               <p className="completion">
-                <Check size={16} /> Interaction complete — continue when ready.
+                <Check size={16} /> Section complete — continue when ready.
               </p>
             )}
             <footer className="nav-footer">
@@ -454,8 +443,11 @@ function App() {
         <Modal
           d={typeof modal === "string" ? reveals[modal] : modal}
           close={() => setModal(null)}
-          done={() => {
-            if (typeof modal === "string") mark();
+          onComplete={() => {
+            if (modal === "hook") mark(0);
+            if (modal === "monitoring") mark(1);
+            if (modal === "timing") setTimingReviewed(true);
+            if (modal === "exam") mark(4);
           }}
         />
       )}
