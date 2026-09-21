@@ -6,19 +6,13 @@ import {
   ArrowRight,
   Award,
   Check,
-  ChevronDown,
   Volume2,
   VolumeX,
   X,
+  Target,
   Filter,
   Layers,
   ShieldCheck,
-  BookOpen,
-  FolderGit2,
-  Sparkles,
-  HelpCircle,
-  Clock,
-  Database,
 } from "lucide-react";
 import { useLessonAudio } from "../../shared/useLessonAudio";
 import "./styles.css";
@@ -38,25 +32,52 @@ const tabs = [
   "Exam lens",
 ];
 
+const reveals = {
+  hook: {
+    title: "The Matching Deposit Obligation",
+    text: "Organizational process assets work exactly like a potluck dinner. Every project withdraws from this shared library on day one — templates, checklists, playbooks, policies, estimating databases, risk and trigger libraries, the lessons repository. Enabler 6.3 names the matching deposit obligation: projects that only withdraw leave the organization exactly as smart as they found it. A project that only consumes capability leaves future projects to reinvent the wheel.",
+    image: "potluck-table-deposit",
+  },
+  monitoring: {
+    title: "Monitoring Channels Feeding OPA Deposits",
+    text: "OPA updates aren't a separate task bolted onto the end of a project. They appear as an output of nearly every monitoring process in this module, because monitoring is where practice gets tested hard enough against reality to learn from. Schedule monitoring refines estimation velocity databases; risk monitoring generates battle-tested trigger libraries; quality audits yield standardized inspection checklists; and stakeholder feedback refines communication matrices.",
+    image: "monitoring-deposits-feed",
+  },
+  timing: {
+    title: "Assets Ship When Proven — Don't Wait for Closure",
+    text: "A lesson that is genuinely validated in month three of a project shouldn't sit in someone's private notes until the project formally closes months later. The moment it is proven, it's ready to deposit — for the current project's own later phases, and for whichever sister project might need it next week. Continuous deposit keeps the enterprise agile and prevents validated insights from decaying in draft documents.",
+    image: "proven-midproject-timing",
+  },
+  exam: {
+    title: "The Sustained Value of Active OPA Governance",
+    text: "Back to that potluck table one more time — because a project that only ever eats leaves the organization exactly as hungry as it found it. Continuous OPA stewardship transforms isolated project lessons into permanent enterprise competitive advantages.",
+    image: "exam-opa-potluck",
+    bullets: [
+      "OPAs defined: templates, checklists, playbooks, policies, estimating databases, risk/trigger libraries, and the lessons learned repository",
+      "Reciprocal obligation: every project withdraws capability; Enabler 6.3 mandates the matching deposit obligation",
+      "Monitoring output: OPA updates emerge naturally from monitoring processes where practice is tested against reality",
+      "Three-step pipeline: Curate (filter for reuse value), Generalize (strip specifics, keep pattern), Version & Own (governed by named steward with credit)",
+      "Timing rule: assets ship immediately when proven — never artificially delayed until project closure",
+    ],
+  },
+};
+
 const pipelineSteps = [
   {
     title: "1. Curate",
-    description:
-      "Select the learning with reuse value. Ten excellent assets beat a hundred entries nobody reads — asset libraries die of volume more often than scarcity.",
+    text: "Select the learning with reuse value. Ten excellent assets beat a hundred entries nobody reads — asset libraries die of volume more often than scarcity. Without curation, repositories become junk drawers.",
     image: "pipeline-curate",
     icon: Filter,
   },
   {
     title: "2. Generalize",
-    description:
-      "Strip the project specifics, keep the pattern. A lesson tied too tightly to one project's exact circumstances helps nobody else.",
+    text: "Strip the project specifics, keep the pattern. A lesson tied too tightly to one project's exact vendor code or unique circumstance helps nobody else. Extract the repeatable principle.",
     image: "pipeline-generalize",
     icon: Layers,
   },
   {
     title: "3. Version and Own",
-    description:
-      "Assets enter through a steward — the PMO or a named owner — versioned, with the contributing project credited. Governance light enough not to deter contribution, firm enough to keep the library trustworthy.",
+    text: "Assets enter through a steward — the PMO or a named owner — versioned, with the contributing project credited. Governance light enough not to deter contribution, firm enough to keep the library trustworthy.",
     image: "pipeline-version-own",
     icon: ShieldCheck,
   },
@@ -71,11 +92,9 @@ const quizzes = [
       "The team should have waited until project closure to add anything to the library",
       "The problem is that no steward or owner reviewed the individual project's contributions for credit",
     ],
-    correct: 1,
-    explain:
-      "Correct! This is exactly the volume failure mode this lesson warns about — raw lessons, uncurated and ungeneralized, don't become assets just by being added to a shared space. Ten excellent, curated assets are worth more than thousands of raw, cluttered entries.",
-    fail:
-      "Reconsider — the library had plenty of entries, so scarcity wasn't the problem; timing (waiting for closure) isn't what's being tested here; and the core issue is curation and generalization, not simply a missing credit step.",
+    c: 1,
+    g: "Correct! This is exactly the volume failure mode this lesson warns about — raw lessons, uncurated and ungeneralized, don't become assets just by being added to a shared space. Ten excellent, curated assets are worth more than thousands of raw, cluttered entries.",
+    b: "Reconsider — the library had plenty of entries, so scarcity wasn't the problem; timing (waiting for closure) isn't what's being tested here; and the core issue is curation and generalization, not simply a missing credit step.",
   },
   {
     q: "A project team validates a genuinely useful estimating adjustment in month three of a twelve-month project. The project manager decides to hold onto this learning and add it to the organization's estimating database only once the project formally closes, reasoning that 'we'll do all our OPA updates at the end.' What is the drawback of this approach?",
@@ -85,562 +104,381 @@ const quizzes = [
       "The drawback is that estimating databases specifically should never be updated mid-project, regardless of when a lesson is proven",
       "There is no drawback, since organizational process assets only have value once a project is fully closed",
     ],
-    correct: 1,
-    explain:
-      "Correct! Assets ship when the learning is proven, not when the project happens to close — waiting means a validated, useful lesson sits idle for months instead of helping other projects (or this one) right away.",
-    fail:
-      "Reconsider — OPA updates aren't meant to be batched only at closure; nothing about estimating databases specifically requires waiting; and assets have value the moment they're proven, not only once a project ends.",
+    c: 1,
+    g: "Correct! Assets ship when the learning is proven, not when the project happens to close — waiting means a validated, useful lesson sits idle for months instead of helping other projects (or this one) right away.",
+    b: "Reconsider — OPA updates aren't meant to be batched only at closure; nothing about estimating databases specifically requires waiting; and assets have value the moment they're proven, not only once a project ends.",
   },
 ];
 
+function Modal({ d, close, done }) {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const esc = (e) => e.key === "Escape" && close();
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [close]);
+
+  return createPortal(
+    <div className="modal-backdrop" onClick={close}>
+      <section className="focus-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-x" onClick={close} aria-label="Close modal">
+          <X size={20} />
+        </button>
+        {step === 0 ? (
+          <>
+            <img className="modal-illustration" src={img(d.image)} alt="" />
+            <h3>{d.title}</h3>
+            <div className="modal-copy">
+              <p>{d.text}</p>
+            </div>
+          </>
+        ) : (
+          <div className="modal-summary">
+            <h3>Key Takeaways</h3>
+            <ul>
+              {d.bullets.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {d.bullets && step === 0 ? (
+          <button className="modal-action" onClick={() => setStep(1)}>
+            Next <ArrowRight size={18} />
+          </button>
+        ) : (
+          <button
+            className="modal-action"
+            onClick={() => {
+              done();
+              close();
+            }}
+          >
+            Mark as read <Check size={18} />
+          </button>
+        )}
+      </section>
+    </div>,
+    document.body
+  );
+}
+
+function Quiz({ d, finish }) {
+  const [p, setP] = useState(null);
+  return createPortal(
+    <div className="knowledge-backdrop">
+      <section className="knowledge-modal">
+        <p className="quiz-label">
+          <Target size={18} /> MICRO KNOWLEDGE CHECK
+        </p>
+        <h3>{d.q}</h3>
+        <div className="answers">
+          {d.a.map((x, i) => (
+            <button
+              key={x}
+              onClick={() => setP(i)}
+              className={p === i ? (i === d.c ? "correct" : "wrong") : ""}
+            >
+              <span>{String.fromCharCode(65 + i)}</span>
+              {x}
+            </button>
+          ))}
+        </div>
+        {p !== null && (
+          <>
+            <p className={`feedback ${p === d.c ? "good" : "bad"}`}>
+              {p === d.c ? d.g : d.b}
+            </p>
+            <button className="finish-check" onClick={finish}>
+              Finish check <ArrowRight size={18} />
+            </button>
+          </>
+        )}
+      </section>
+    </div>,
+    document.body
+  );
+}
+
 function App() {
-  const [tab, setTab] = useState(0);
+  const [s, setS] = useState(0);
+  const [done, setDone] = useState(Array(5).fill(false));
+  const [modal, setModal] = useState(null);
+  const [quiz, setQuiz] = useState(null);
   const [sound, setSound] = useState(true);
-  const [revealed, setRevealed] = useState({});
-  const [openAccordion, setOpenAccordion] = useState(null);
-  const [modalData, setModalData] = useState(null);
-  const [quizAnswers, setQuizAnswers] = useState({});
+  const [pipelineRead, setPipelineRead] = useState(Array(3).fill(false));
 
   useLessonAudio(sound);
 
-  const toggleReveal = (key) => {
-    setRevealed((prev) => ({ ...prev, [key]: true }));
-  };
+  const mark = (i = s) =>
+    setDone((d) => d.map((x, j) => (j === i ? true : x)));
+  const go = (i) => i >= 0 && i < 5 && (i <= s + 1 || done[i - 1]) && setS(i);
 
-  const handleQuizAnswer = (quizIdx, optionIdx) => {
-    setQuizAnswers((prev) => ({ ...prev, [quizIdx]: optionIdx }));
-  };
+  useEffect(() => {
+    if (s === 2 && pipelineRead.every(Boolean)) {
+      // Step 2 pipeline items all read
+    }
+  }, [pipelineRead, s]);
+
+  let c;
+
+  if (s === 0)
+    c = (
+      <div className="hero-layout">
+        <div>
+          <p className="eyebrow">LESSON 6.5.3 · UPDATE ORGANIZATIONAL PROCESS ASSETS</p>
+          <h1>
+            Deposit as well as withdraw; keep the library <span>alive.</span>
+          </h1>
+          <p className="lead">
+            If you go to a potluck dinner, you don't just eat. You bring a dish. The whole thing only works because people contribute as well as consume. Projects that only withdraw leave the organization exactly as smart as they found it.
+          </p>
+          <button
+            className="primary-cta"
+            disabled={done[0]}
+            onClick={() => !done[0] && setModal("hook")}
+          >
+            {done[0] ? "Deposit obligation reviewed" : "Reveal matching deposit obligation"}{" "}
+            <ArrowRight size={18} />
+          </button>
+        </div>
+        <img className="lesson-art" src={img("potluck-table-deposit")} alt="" />
+      </div>
+    );
+
+  if (s === 1)
+    c = (
+      <div className="hero-layout">
+        <div>
+          <p className="eyebrow">MONITORING AS THE ENGINE</p>
+          <h2>Tested in the Field: Friction Generates Learning</h2>
+          <p className="lead">
+            OPA updates aren't a separate task bolted onto the end of a project. They appear as an output of nearly every monitoring process, because monitoring is where practice gets tested hard enough against reality to learn from.
+          </p>
+          <button
+            className="primary-cta"
+            disabled={done[1]}
+            onClick={() => !done[1] && setModal("monitoring")}
+          >
+            {done[1] ? "Monitoring engine reviewed" : "Reveal monitoring deposit engine"}{" "}
+            <ArrowRight size={18} />
+          </button>
+        </div>
+        <img className="lesson-art" src={img("monitoring-deposits-feed")} alt="" />
+      </div>
+    );
+
+  if (s === 2)
+    c = (
+      <div className="wide-page">
+        <h2>The Pipeline: Curate, Generalize, Version</h2>
+        <p className="lead">
+          Raw lessons do not belong in the asset library — assets do. Click each of the three steps to explore how raw experience becomes reusable capability.
+        </p>
+        <div className="card-grid three">
+          {pipelineSteps.map((step, i) => {
+            const Icon = step.icon;
+            const isRead = pipelineRead[i];
+            return (
+              <button
+                className={`click-card ${isRead ? "read" : ""}`}
+                onClick={() => {
+                  setPipelineRead((r) => r.map((v, j) => (j === i ? true : v)));
+                  setModal({
+                    title: step.title,
+                    text: step.text,
+                    image: step.image,
+                  });
+                }}
+                key={step.title}
+              >
+                <span className="card-icon">
+                  <Icon size={28} />
+                </span>
+                <strong>{step.title}</strong>
+                {isRead ? (
+                  <Check className="card-arrow check" size={20} />
+                ) : (
+                  <ArrowRight className="card-arrow" size={20} />
+                )}
+              </button>
+            );
+          })}
+        </div>
+        {pipelineRead.every(Boolean) && (
+          <button
+            className="knowledge-cta centered"
+            disabled={done[2]}
+            onClick={() => setQuiz(0)}
+          >
+            {done[2] ? (
+              <>
+                <Check size={18} /> Knowledge check completed
+              </>
+            ) : (
+              <>
+                <Target size={18} /> Start knowledge check <ArrowRight size={18} />
+              </>
+            )}
+          </button>
+        )}
+      </div>
+    );
+
+  if (s === 3)
+    c = (
+      <div className="hero-layout">
+        <div>
+          <p className="eyebrow">DEPOSIT TIMING</p>
+          <h2>Assets Ship When Proven, Not When Closed</h2>
+          <p className="lead">
+            A lesson validated in month three of a project shouldn't sit in someone's private notes until project closure. The moment it is proven, deposit it immediately for later phases and sister projects.
+          </p>
+          <button
+            className="primary-cta"
+            disabled={done[3]}
+            onClick={() => setModal("timing")}
+          >
+            {done[3] ? "Timing rule reviewed — ready for check" : "Reveal the proven learning rule"}{" "}
+            <ArrowRight size={18} />
+          </button>
+          {done[3] && (
+            <button
+              className="knowledge-cta"
+              style={{ marginTop: 14 }}
+              onClick={() => setQuiz(1)}
+            >
+              <Target size={18} /> Start knowledge check <ArrowRight size={18} />
+            </button>
+          )}
+        </div>
+        <img className="lesson-art" src={img("proven-midproject-timing")} alt="" />
+      </div>
+    );
+
+  if (s === 4)
+    c = (
+      <div className="exam-layout">
+        <p className="eyebrow">MODULE 6 SYNTHESIS</p>
+        <h2>The Sustained Value of Active OPA Governance</h2>
+        <div className="exam-two-col">
+          <div>
+            <p className="lead">
+              Back to that potluck table one more time — because a project that only ever eats leaves the organization exactly as hungry as it found it.
+            </p>
+            <p>
+              When teams deposit proven templates, estimation calibrations, risk triggers, and generalized checklists, the organization grows continuously smarter.
+            </p>
+            <button
+              className="primary-cta"
+              disabled={done[4]}
+              onClick={() => setModal("exam")}
+            >
+              {done[4] ? "Exam takeaway review complete" : "Review key exam takeaways"}{" "}
+              <ArrowRight size={18} />
+            </button>
+          </div>
+          <img className="lesson-art" src={img("exam-opa-potluck")} alt="" />
+        </div>
+      </div>
+    );
 
   return (
-    <div className="app-container">
-      {/* Header */}
-      <header className="header">
-        <div className="header-content">
-          <div className="badge-wrapper">
-            <span className="badge">Lesson 6.5.3</span>
-            <span className="badge-meta">CertSprints PMP · Module 6</span>
-          </div>
-          <h1 className="main-title">Update Organizational Process Assets (OPAs)</h1>
-          <p className="subtitle">
-            Transforming real-world project learnings into curated, versioned, reusable organizational assets.
-          </p>
+    <div className="app-shell">
+      <header className="topbar">
+        <div className="course-select">
+          <span className="crumb">Module 6</span>
+          <span className="crumb-sep">/</span>
+          <span className="crumb-current">Lesson 6.5.3</span>
         </div>
-        <div className="audio-toggle">
-          <button
-            onClick={() => setSound(!sound)}
-            className="icon-button"
-            title={sound ? "Mute audio feedback" : "Enable audio feedback"}
-          >
-            {sound ? <Volume2 size={20} /> : <VolumeX size={20} />}
+        <div className="module-progress">
+          <div>
+            {Array.from({ length: 10 }, (_, i) => (
+              <span
+                className={`progress-dot ${
+                  i < 6 ? "done" : i === 6 ? "active" : ""
+                }`}
+                key={i}
+              >
+                {i < 6 ? <Check size={10} /> : <span />}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="top-actions">
+          <button className="ghost-button" onClick={() => setSound(!sound)}>
+            {sound ? <Volume2 size={16} /> : <VolumeX size={16} />}
+            <span>{sound ? "Sound on" : "Sound off"}</span>
+          </button>
+          <button className="ghost-button">
+            <X size={16} />
+            <span>Quit</span>
           </button>
         </div>
       </header>
-
-      {/* Navigation Tabs */}
-      <nav className="tabs-nav" aria-label="Lesson screens">
-        {tabs.map((name, i) => (
-          <button
-            key={name}
-            onClick={() => setTab(i)}
-            className={`tab-btn ${tab === i ? "tab-btn-active" : ""}`}
-          >
-            <span className="tab-number">{i + 1}</span>
-            <span className="tab-name">{name}</span>
-          </button>
-        ))}
-      </nav>
-
-      {/* Main Content Area */}
-      <main className="content-area">
-        {/* SCREEN 1: HOOK */}
-        {tab === 0 && (
-          <div className="screen-card">
-            <div className="card-badge">Screen 1 · Hook</div>
-            <h2 className="screen-heading">The Potluck Rule: Deposit as Well as Withdraw</h2>
-            <div className="intro-prose">
-              <p>
-                If you go to a potluck dinner, you don't just eat. You bring a dish. The whole thing only works because people contribute as well as consume.
-              </p>
-            </div>
-
-            {!revealed.hook ? (
-              <div className="reveal-cta">
-                <button
-                  onClick={() => toggleReveal("hook")}
-                  className="primary-btn"
-                >
-                  <Sparkles size={18} />
-                  <span>Reveal the OPA Connection</span>
-                </button>
-              </div>
-            ) : (
-              <div className="reveal-box animate-fade-in">
-                <div className="reveal-content-grid">
-                  <div className="reveal-text">
-                    <h3 className="section-title">The Matching Deposit Obligation</h3>
-                    <p>
-                      Organizational process assets work the same way. Every project withdraws from this shared library on day one — templates, checklists, playbooks, policies, estimating databases, risk and trigger libraries, the lessons repository.
-                    </p>
-                    <p>
-                      Enabler 6.3 names the matching deposit obligation: <strong>projects that only withdraw leave the organization exactly as smart as they found it</strong>.
-                    </p>
-                    <div className="highlight-pill">
-                      <span>Core Principle:</span> A project that only consumes capability leaves future projects to reinvent the wheel.
-                    </div>
-                  </div>
-                  <div className="reveal-image-container">
-                    <img
-                      src={img("potluck-table-deposit")}
-                      alt="Potluck table sharing resources alongside active OPA library"
-                      className="lesson-image"
-                      onClick={() =>
-                        setModalData({
-                          title: "The Matching Deposit Obligation",
-                          image: "potluck-table-deposit",
-                          text: "Just like a potluck dinner, an organization's asset library thrives only when teams deposit proven tools and insights back onto the shelf.",
-                        })
-                      }
-                    />
-                    <span className="image-caption">Click image to expand</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="screen-footer">
-              <div></div>
-              <button onClick={() => setTab(1)} className="nav-btn next-btn">
-                <span>Next: Where deposits come from</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* SCREEN 2: WHERE DEPOSITS COME FROM */}
-        {tab === 1 && (
-          <div className="screen-card">
-            <div className="card-badge">Screen 2 · The Friction of Real Work</div>
-            <h2 className="screen-heading">Where the Deposits Actually Come From</h2>
-            <div className="intro-prose">
-              <p>
-                OPA updates aren't a separate task bolted onto the end of a project. They come from somewhere very specific.
-              </p>
-            </div>
-
-            {!revealed.source ? (
-              <div className="reveal-cta">
-                <button
-                  onClick={() => toggleReveal("source")}
-                  className="primary-btn"
-                >
-                  <Sparkles size={18} />
-                  <span>Discover the Source of OPA Updates</span>
-                </button>
-              </div>
-            ) : (
-              <div className="reveal-box animate-fade-in">
-                <div className="reveal-content-grid">
-                  <div className="reveal-text">
-                    <h3 className="section-title">Tested in the Field</h3>
-                    <p>
-                      OPA updates appear as an output of <strong>nearly every monitoring process</strong> in this module, because monitoring is where practice gets tested hard enough to learn from.
-                    </p>
-                    <p>
-                      It's the friction of actually running the work — not the theoretical planning of it — that produces something worth depositing back into the library.
-                    </p>
-                    <div className="info-card-accent">
-                      <strong>Monitoring as an Asset Engine:</strong>
-                      <ul>
-                        <li>Schedule monitoring refines estimation velocity databases.</li>
-                        <li>Risk monitoring generates battle-tested trigger libraries.</li>
-                        <li>Quality audits yield standardized inspection checklists.</li>
-                        <li>Stakeholder feedback refines communication matrices.</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="reveal-image-container">
-                    <img
-                      src={img("monitoring-deposits-feed")}
-                      alt="Monitoring processes channeling validated insights into central OPA repository"
-                      className="lesson-image"
-                      onClick={() =>
-                        setModalData({
-                          title: "Monitoring Channels Feeding OPA Deposits",
-                          image: "monitoring-deposits-feed",
-                          text: "Active monitoring pressure-tests plans against reality, creating the empirical data needed to update the organization's reusable assets.",
-                        })
-                      }
-                    />
-                    <span className="image-caption">Click image to expand</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="screen-footer">
-              <button onClick={() => setTab(0)} className="nav-btn prev-btn">
-                <ArrowLeft size={18} />
-                <span>Previous</span>
-              </button>
-              <button onClick={() => setTab(2)} className="nav-btn next-btn">
-                <span>Next: Three-step pipeline</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* SCREEN 3: THREE-STEP PIPELINE & KNOWLEDGE CHECK */}
-        {tab === 2 && (
-          <div className="screen-card">
-            <div className="card-badge">Screen 3 · Asset Transformation</div>
-            <h2 className="screen-heading">The Pipeline: Curate, Generalize, Version</h2>
-            <div className="intro-prose">
-              <p>
-                Raw lessons do not belong in the asset library — assets do. Three honest steps turn raw experiences into reusable capability. Click each to explore.
-              </p>
-            </div>
-
-            <div className="accordion-list">
-              {pipelineSteps.map((step, index) => {
-                const IconComponent = step.icon;
-                const isOpen = openAccordion === index;
-                return (
-                  <div
-                    key={step.title}
-                    className={`accordion-card ${isOpen ? "accordion-open" : ""}`}
+      <main className="workspace">
+        <section className="lesson-stage">
+          <article className="lesson-card">
+            <div className="section-tabs">
+              <p>SECTION {s + 1} OF 5</p>
+              <div>
+                {tabs.map((x, i) => (
+                  <button
+                    className={`${done[i] ? "done" : ""} ${
+                      s === i ? "active" : ""
+                    }`}
+                    key={x}
+                    onClick={() => go(i)}
                   >
-                    <button
-                      className="accordion-header"
-                      onClick={() =>
-                        setOpenAccordion(isOpen ? null : index)
-                      }
-                    >
-                      <div className="accordion-title-group">
-                        <span className="accordion-icon-box">
-                          <IconComponent size={20} />
-                        </span>
-                        <span className="accordion-title">{step.title}</span>
-                      </div>
-                      <ChevronDown
-                        size={20}
-                        className={`chevron ${isOpen ? "chevron-rotated" : ""}`}
-                      />
-                    </button>
-                    {isOpen && (
-                      <div className="accordion-body animate-fade-in">
-                        <div className="accordion-grid">
-                          <div className="accordion-desc">
-                            <p>{step.description}</p>
-                          </div>
-                          <div className="accordion-img-wrap">
-                            <img
-                              src={img(step.image)}
-                              alt={step.title}
-                              className="accordion-thumb"
-                              onClick={() =>
-                                setModalData({
-                                  title: step.title,
-                                  image: step.image,
-                                  text: step.description,
-                                })
-                              }
-                            />
-                            <span className="image-caption">Enlarge</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Micro Knowledge Check 1 */}
-            <div className="quiz-section">
-              <div className="quiz-header">
-                <HelpCircle className="quiz-badge-icon" size={20} />
-                <span>Micro Knowledge Check</span>
+                    {done[i] && <Check size={14} />}
+                    {x}
+                  </button>
+                ))}
               </div>
-              <p className="quiz-scenario">{quizzes[0].q}</p>
-              <div className="quiz-options">
-                {quizzes[0].a.map((opt, optIdx) => {
-                  const isSelected = quizAnswers[0] === optIdx;
-                  const isCorrect = optIdx === quizzes[0].correct;
-                  return (
-                    <button
-                      key={optIdx}
-                      onClick={() => handleQuizAnswer(0, optIdx)}
-                      className={`quiz-option ${
-                        isSelected
-                          ? isCorrect
-                            ? "quiz-option-correct"
-                            : "quiz-option-wrong"
-                          : ""
-                      }`}
-                    >
-                      <span className="option-letter">
-                        {String.fromCharCode(65 + optIdx)}
-                      </span>
-                      <span className="option-text">{opt}</span>
-                    </button>
-                  );
-                })}
-              </div>
-              {quizAnswers[0] !== undefined && (
-                <div
-                  className={`quiz-feedback ${
-                    quizAnswers[0] === quizzes[0].correct
-                      ? "feedback-correct"
-                      : "feedback-wrong"
-                  } animate-fade-in`}
-                >
-                  {quizAnswers[0] === quizzes[0].correct
-                    ? quizzes[0].explain
-                    : quizzes[0].fail}
-                </div>
-              )}
             </div>
-
-            <div className="screen-footer">
-              <button onClick={() => setTab(1)} className="nav-btn prev-btn">
-                <ArrowLeft size={18} />
-                <span>Previous</span>
-              </button>
-              <button onClick={() => setTab(3)} className="nav-btn next-btn">
-                <span>Next: Don't wait for closure</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* SCREEN 4: TIMING: DON'T WAIT FOR CLOSURE & KNOWLEDGE CHECK */}
-        {tab === 3 && (
-          <div className="screen-card">
-            <div className="card-badge">Screen 4 · Deposit Timing</div>
-            <h2 className="screen-heading">Timing: Don't Wait for Closure</h2>
-            <div className="intro-prose">
-              <p>
-                One more detail changes when a deposit actually happens — and it isn't at the end of the project lifecycle.
+            <div className="lesson-content">{c}</div>
+            {done[s] && (
+              <p className="completion">
+                <Check size={16} /> Interaction complete — continue when ready.
               </p>
-            </div>
-
-            {!revealed.timing ? (
-              <div className="reveal-cta">
-                <button
-                  onClick={() => toggleReveal("timing")}
-                  className="primary-btn"
-                >
-                  <Sparkles size={18} />
-                  <span>Reveal the Proven Learning Rule</span>
-                </button>
-              </div>
-            ) : (
-              <div className="reveal-box animate-fade-in">
-                <div className="reveal-content-grid">
-                  <div className="reveal-text">
-                    <h3 className="section-title">Assets Ship When Proven</h3>
-                    <p>
-                      <strong>Do not wait for closure</strong> — assets ship when the learning is proven.
-                    </p>
-                    <p>
-                      A lesson that's genuinely validated in month three of a project shouldn't sit in someone's private notes until the project wraps up months later. The moment it's proven, it's ready to deposit — for the current project's own later phases, and for whichever other project might need it next week.
-                    </p>
-                    <div className="highlight-pill">
-                      <span>Golden Rule:</span> Continuous deposit keeps the enterprise agile and prevents validated insights from decaying in draft documents.
-                    </div>
-                  </div>
-                  <div className="reveal-image-container">
-                    <img
-                      src={img("proven-midproject-timing")}
-                      alt="Mid-project learning deposited immediately upon validation"
-                      className="lesson-image"
-                      onClick={() =>
-                        setModalData({
-                          title: "Immediate Mid-Project Deposit",
-                          image: "proven-midproject-timing",
-                          text: "Proven practices deliver immediate organizational ROI when deposited as soon as they are validated during execution.",
-                        })
-                      }
-                    />
-                    <span className="image-caption">Click image to expand</span>
-                  </div>
-                </div>
-
-                {/* Micro Knowledge Check 2 */}
-                <div className="quiz-section">
-                  <div className="quiz-header">
-                    <HelpCircle className="quiz-badge-icon" size={20} />
-                    <span>Micro Knowledge Check</span>
-                  </div>
-                  <p className="quiz-scenario">{quizzes[1].q}</p>
-                  <div className="quiz-options">
-                    {quizzes[1].a.map((opt, optIdx) => {
-                      const isSelected = quizAnswers[1] === optIdx;
-                      const isCorrect = optIdx === quizzes[1].correct;
-                      return (
-                        <button
-                          key={optIdx}
-                          onClick={() => handleQuizAnswer(1, optIdx)}
-                          className={`quiz-option ${
-                            isSelected
-                              ? isCorrect
-                                ? "quiz-option-correct"
-                                : "quiz-option-wrong"
-                              : ""
-                          }`}
-                        >
-                          <span className="option-letter">
-                            {String.fromCharCode(65 + optIdx)}
-                          </span>
-                          <span className="option-text">{opt}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {quizAnswers[1] !== undefined && (
-                    <div
-                      className={`quiz-feedback ${
-                        quizAnswers[1] === quizzes[1].correct
-                          ? "feedback-correct"
-                          : "feedback-wrong"
-                      } animate-fade-in`}
-                    >
-                      {quizAnswers[1] === quizzes[1].correct
-                        ? quizzes[1].explain
-                        : quizzes[1].fail}
-                    </div>
-                  )}
-                </div>
-              </div>
             )}
-
-            <div className="screen-footer">
-              <button onClick={() => setTab(2)} className="nav-btn prev-btn">
-                <ArrowLeft size={18} />
-                <span>Previous</span>
+            <footer className="nav-footer">
+              <button
+                className="secondary-button"
+                disabled={!s}
+                onClick={() => go(s - 1)}
+              >
+                <ArrowLeft size={16} /> Previous
               </button>
-              <button onClick={() => setTab(4)} className="nav-btn next-btn">
-                <span>Next: Exam lens</span>
-                <ArrowRight size={18} />
+              <button
+                className={`primary-button ${done[s] ? "unlocked" : ""}`}
+                disabled={!done[s]}
+                onClick={() => s < 4 && go(s + 1)}
+              >
+                Continue <ArrowRight size={16} />
               </button>
-            </div>
-          </div>
-        )}
-
-        {/* SCREEN 5: SYNTHESIS (EXAM LENS) */}
-        {tab === 4 && (
-          <div className="screen-card">
-            <div className="card-badge">Screen 5 · Synthesis & Exam Lens</div>
-            <h2 className="screen-heading">The Sustained Value of Active OPA Governance</h2>
-            <div className="intro-prose">
-              <p>
-                Back to that potluck table one more time — because a project that only ever eats leaves the organization exactly as hungry as it found it.
-              </p>
-            </div>
-
-            {!revealed.exam ? (
-              <div className="reveal-cta">
-                <button
-                  onClick={() => toggleReveal("exam")}
-                  className="primary-btn"
-                >
-                  <Award size={18} />
-                  <span>Reveal Key Exam Takeaways</span>
-                </button>
-              </div>
-            ) : (
-              <div className="reveal-box animate-fade-in">
-                <div className="reveal-content-grid">
-                  <div className="reveal-text">
-                    <h3 className="section-title">Exam-Relevant Enablers</h3>
-                    <ul className="bullet-list">
-                      <li>
-                        <strong>OPAs Defined:</strong> Templates, checklists, playbooks, policies, estimating databases, risk/trigger libraries, and the lessons learned repository.
-                      </li>
-                      <li>
-                        <strong>Reciprocal Obligation:</strong> Every project withdraws capability; Enabler 6.3 mandates the matching deposit obligation.
-                      </li>
-                      <li>
-                        <strong>Monitoring Output:</strong> OPA updates emerge naturally from monitoring processes where practice is tested against reality.
-                      </li>
-                      <li>
-                        <strong>Three-Step Pipeline:</strong> Curate (filter for reuse value), Generalize (strip specifics, isolate the pattern), and Version & Own (governed by a named steward with source attribution).
-                      </li>
-                      <li>
-                        <strong>Timing Rule:</strong> Assets ship when the learning is proven — never artificially delayed until project closure.
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="reveal-image-container">
-                    <img
-                      src={img("exam-opa-potluck")}
-                      alt="Fully stocked and continuously replenished OPA repository"
-                      className="lesson-image"
-                      onClick={() =>
-                        setModalData({
-                          title: "Synchronized Organizational Capability",
-                          image: "exam-opa-potluck",
-                          text: "Continuous OPA stewardship transforms isolated project lessons into permanent enterprise competitive advantages.",
-                        })
-                      }
-                    />
-                    <span className="image-caption">Click image to expand</span>
-                  </div>
-                </div>
-
-                <div className="completion-card">
-                  <Award size={32} className="completion-icon" />
-                  <div>
-                    <h4>Lesson 6.5.3 Completed</h4>
-                    <p>You have mastered the principles, pipeline, and timing of updating Organizational Process Assets.</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="screen-footer">
-              <button onClick={() => setTab(3)} className="nav-btn prev-btn">
-                <ArrowLeft size={18} />
-                <span>Previous</span>
-              </button>
-              <div></div>
-            </div>
-          </div>
-        )}
+            </footer>
+          </article>
+        </section>
       </main>
-
-      {/* Modal Portal */}
-      {modalData &&
-        createPortal(
-          <div className="modal-backdrop" onClick={() => setModalData(null)}>
-            <div
-              className="modal-content animate-pop"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="modal-header">
-                <h3>{modalData.title}</h3>
-                <button
-                  className="close-btn"
-                  onClick={() => setModalData(null)}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              <div className="modal-body">
-                <img
-                  src={img(modalData.image)}
-                  alt={modalData.title}
-                  className="modal-image"
-                />
-                <p className="modal-caption">{modalData.text}</p>
-              </div>
-            </div>
-          </div>,
-          document.body
-        )}
+      {modal && (
+        <Modal
+          d={typeof modal === "string" ? reveals[modal] : modal}
+          close={() => setModal(null)}
+          done={() => {
+            if (typeof modal === "string") mark();
+          }}
+        />
+      )}
+      {quiz !== null && (
+        <Quiz
+          d={quizzes[quiz]}
+          finish={() => {
+            mark(quiz === 0 ? 2 : 3);
+            setQuiz(null);
+          }}
+        />
+      )}
     </div>
   );
 }

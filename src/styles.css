@@ -246,3 +246,6 @@
 .wide-page h2{width:100%;max-width:none}
 .wide-page>.lead{width:100%;max-width:none}
 .hero-layout h1 span{display:inline;margin:0;color:#087bfa;font:inherit;letter-spacing:inherit}
+.card-grid.five {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
