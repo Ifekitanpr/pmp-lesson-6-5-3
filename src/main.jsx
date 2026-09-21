@@ -189,7 +189,7 @@ function Quiz({ d, finish }) {
               {p === d.c ? d.g : d.b}
             </p>
             <button className="finish-check" onClick={finish}>
-              Finish check & unlock next screen <ArrowRight size={18} />
+              Finish check <ArrowRight size={18} />
             </button>
           </>
         )}
@@ -230,7 +230,7 @@ function App() {
             disabled={done[0]}
             onClick={() => !done[0] && setModal("hook")}
           >
-            {done[0] ? "Matching deposit obligation reviewed" : "Click to Reveal: The Matching Deposit Obligation"}{" "}
+            {done[0] ? "Matching deposit obligation reviewed" : "Reveal matching deposit obligation"}{" "}
             <ArrowRight size={18} />
           </button>
         </div>
@@ -251,7 +251,7 @@ function App() {
             disabled={done[1]}
             onClick={() => !done[1] && setModal("monitoring")}
           >
-            {done[1] ? "Monitoring output engine reviewed" : "Click to Reveal: Where Deposits Come From"}{" "}
+            {done[1] ? "Monitoring output engine reviewed" : "Reveal where deposits come from"}{" "}
             <ArrowRight size={18} />
           </button>
         </div>
@@ -301,7 +301,7 @@ function App() {
             className="knowledge-cta centered"
             onClick={() => setQuiz(0)}
           >
-            <Target size={18} /> {done[2] ? "Retake Micro Knowledge Check" : "Start Micro Knowledge Check (Required to Continue)"}{" "}
+            <Target size={18} /> {done[2] ? "Retake knowledge check" : "Start knowledge check"}{" "}
             <ArrowRight size={18} />
           </button>
         )}
@@ -320,7 +320,7 @@ function App() {
             className="primary-cta"
             onClick={() => setModal("timing")}
           >
-            {timingReviewed ? "Timing rule reviewed" : "Click to Reveal: Don't Wait for Closure"}{" "}
+            {timingReviewed ? "Timing rule reviewed" : "Reveal timing rule"}{" "}
             <ArrowRight size={18} />
           </button>
           {timingReviewed && (
@@ -329,7 +329,7 @@ function App() {
               style={{ marginTop: 14 }}
               onClick={() => setQuiz(1)}
             >
-              <Target size={18} /> {done[3] ? "Retake Micro Knowledge Check" : "Start Micro Knowledge Check (Required to Continue)"}{" "}
+              <Target size={18} /> {done[3] ? "Retake knowledge check" : "Start knowledge check"}{" "}
               <ArrowRight size={18} />
             </button>
           )}
@@ -354,7 +354,7 @@ function App() {
             disabled={done[4]}
             onClick={() => setModal("exam")}
           >
-            {done[4] ? "Exam review complete" : "Click to Reveal: Exam-Relevant Enablers"}{" "}
+            {done[4] ? "Exam review complete" : "Reveal exam enablers"}{" "}
             <ArrowRight size={18} />
           </button>
         </div>
